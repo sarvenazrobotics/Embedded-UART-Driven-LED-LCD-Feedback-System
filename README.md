@@ -50,3 +50,29 @@ if(temp == 'y') LED1(1);
 if(temp == 'n') LED1(0);
 lcd_gotoxy(0,0);
 lcd_putchar(temp);
+
+
+ ┌────────────────────────────┐
+ │        Serial Device       │
+ │ (PC / USB-UART Converter)  │
+ └──────────────┬─────────────┘
+                │ UART RX/TX
+                │
+ ┌──────────────▼─────────────┐
+ │       ATmega328P MCU        │
+ │ ┌─────────────────────────┐ │
+ │ │   USART Receiver ISR    │ │
+ │ │  - Reads incoming byte  │ │
+ │ │  - 'y' → LED ON         │ │
+ │ │  - 'n' → LED OFF        │ │
+ │ └─────────────────────────┘ │
+ │            │                 │
+ │            │ Writes char     │
+ │            ▼                 │
+ │     16×2 LCD Display         │
+ │   (Shows received data)      │
+ │                              │
+ │   PD5 ──────► LED Control    │
+ │   PC0 ──────► Heartbeat LED  │
+ └──────────────────────────────┘
+
